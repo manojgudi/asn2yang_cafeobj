@@ -6,7 +6,7 @@ mod! TYPE-X {
     op yangX2asnX : YangX -> AsnX  .
 
     var a : AsnX .
-    -- Round-trip morphism works
+    -- Round-trip condition works
     eq yangX2asnX(asnX2yangX(a)) = a .
 }
 
@@ -18,7 +18,7 @@ mod! TYPE-Y {
   op yangY2asnY : YangY -> AsnY  .
 
   var b : AsnY .
-  -- Round-trip morphism works
+  -- Round-trip condition works
   eq yangY2asnY(asnY2yangY(b)) = b .
 }
 
@@ -31,6 +31,8 @@ mod! CHOICE-T{
 
     -- Constructors which Tag ASN.1 values
     op aTag1 : AsnX -> AsnChoice .
+    -- Unique Tag but same type as aTag1
+    op aTag3 : AsnX -> AsnChoice .
     op aTag2 : AsnY -> AsnChoice .
 
     -- Constructors which Tag YANG values
@@ -39,7 +41,10 @@ mod! CHOICE-T{
 
     -- Observers
     op gtaTag1 : AsnChoice  -> AsnX .
+    op gtaTag3 : AsnChoice  -> AsnX . -- For same type but different tag
+
     op gtaTag2 : AsnChoice  -> AsnY .
+    op gtaTag3 : AsnChoice  -> AsnY .
     op gtyTag1 : YangChoice -> YangX .
     op gtyTag2 : YangChoice -> YangY .
 
@@ -55,6 +60,7 @@ mod! CHOICE-T{
 
     -- Function models for observers
     eq gtaTag1(aTag1(a)) = a .
+    eq gtaTag3(aTag3(a)) = a . -- For same type but different tag
     eq gtaTag2(aTag2(b)) = b .
     eq gtyTag1(yTag1(p)) = p .
     eq gtyTag2(yTag2(q)) = q .
@@ -63,7 +69,7 @@ mod! CHOICE-T{
     eq isaTag1(aTag1(a)) = true .
     eq isaTag1(aTag2(b)) = false .
 
-    -- Function models for translation
+    -- Function models for individual round trips
     op fwdChoice : AsnChoice -> YangChoice .
     eq fwdChoice(aTag1(a)) = yTag1(asnX2yangX(a)) .
     eq fwdChoice(aTag2(b)) = yTag2(asnY2yangY(b)) .
@@ -75,18 +81,20 @@ mod! CHOICE-T{
 
 -- Proof: Tag1 and Tag2 round-trip
 open CHOICE-T .
-    --> Shows value of Tag1 obeys CHOICE round-trip morphism
+    --> Shows value of Tag1 obeys CHOICE round-trip condition
     red gtaTag1(bwdChoice(fwdChoice(aTag1(a)))) = a .
-    --> Shows value of Tag2 obeys CHOICE round-trip morphism
+    --> Shows value of Tag2 obeys CHOICE round-trip condition
     red gtaTag2(bwdChoice(fwdChoice(aTag2(b)))) = b .
 close .
 
 -- Proof: Tag Distinctness
 open CHOICE-T .
     op o : -> AsnX .
-    op q : -> AsnY .
+    op m : -> AsnY .
    --> Tag1 is Tag for AsnX type, so TRUE for (o:AsnX)
    red isaTag1(aTag1(o)) .
-   --> Tag2 is Tag for AsnY type, so FALSE for (q:AsnY)
-   red isaTag1(aTag2(q)) .
+   --> Tag3 is also a Tag for AsnX, but CafeOBJ identifies it and doesnt reduce!
+   red isaTag1(aTag3(o)) .
+   --> Tag2 is Tag for AsnY type, so FALSE for (m:AsnY)
+   red isaTag1(aTag2(m)) .
 close

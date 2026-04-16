@@ -6,7 +6,7 @@ mod! TYPE-X {
     op yangX2asnX : YangX -> AsnX  .
 
     var a : AsnX .
-    -- Round-trip morphism works
+    -- Round-trip condition works
     eq yangX2asnX(asnX2yangX(a)) = a .
 }
 
@@ -20,7 +20,7 @@ mod! TYPE-Y {
 
   var b : AsnY .
 
-  -- Round-trip morphism works
+  -- Round-trip condition works
   eq yangY2asnY(asnY2yangY(b)) = b .
 }
 

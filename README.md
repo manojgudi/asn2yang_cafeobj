@@ -18,3 +18,6 @@ $ cafeobj sequence_proofs.mod
 $ cafeobj choice_proofs.mod
 ```
 
+
+### Other artifacts:
+Compatible Yang String definition is available: c_yang_str.asn
