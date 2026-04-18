@@ -1,8 +1,0 @@
-
-CompatibleYANGString ::= IA5String (FROM(
- -- 0x20..0x7F union 0x09, 0x0A, 0x0D
-    " !\22#$%&'()*+,-./0123456789:;<=>?@"
-    | "ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_"
-    | "abcdefghijklmnopqrstuvwxyz{|}~\7F"
-    | "\09\0A\0D"))
-

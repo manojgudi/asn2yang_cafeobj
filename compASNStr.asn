@@ -1,0 +1,32 @@
+-- ASN.1 Module: CompatibleASNString
+-- ITU-T X.680 / X.682 compliant
+-- Character set: U+0009, U+000A, U+000D, U+0020..U+007F
+-- This is the C_MAX carrier set from the YANG specification
+
+CompatibleASNString-Module DEFINITIONS AUTOMATIC TAGS ::= BEGIN
+
+    EXPORTS CompatibleASNString;
+
+    -- CompatibleASNString
+    -- A string type compatible with YANG's string type.
+    -- YANG string = UTF-8 encoding of Unicode codepoints
+    -- This type restricts to ASCII-like characters that are safe
+    -- for use in protocols that transport YANG data.
+    --
+    -- Character Set (C_MAX):
+    --   HT     = U+0009 (Horizontal Tab)
+    --   LF     = U+000A (Line Feed)
+    --   CR     = U+000D (Carriage Return)
+    --   ASCII  = U+0020..U+007F ( space through DEL)
+    CompatibleASNString ::= IA5String
+        (FROM (
+            " !""#$%&'()*+,-./0123456789:;<=>?@"
+            | "ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`"
+            | "abcdefghijklmnopqrstuvwxyz{|}~\7F"
+            | "\09"
+            | "\0A"
+            | "\0D"
+        ))
+
+END
+

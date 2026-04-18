@@ -20,4 +20,5 @@ $ cafeobj choice_proofs.mod
 
 
 ### Other artifacts:
-Compatible Yang String definition is available: c_yang_str.asn
+compASNStr.asn   : ASN Compatible string type with restricted character set 
+compYANGStr.yang : YANG Compatible strings type with restricted character set 
