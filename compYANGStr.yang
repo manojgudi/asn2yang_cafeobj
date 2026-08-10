@@ -1,0 +1,21 @@
+module compYANGStr {
+  yang-version 1.1;
+  namespace "urn:example:compYANGStr";
+  prefix "cs";
+  organization "Example";
+  contact "Example Organization";
+  description "YANG module for CompatibleYANGString.";
+  revision 2024-01-01 {
+    description "Initial revision.";
+    reference "RFC XXXX";
+  }
+  typedef CompatibleYANGString {
+    type string {
+      /*Some characters in pattern maybe invisible in some editors [0x5b, 0x09, 0x0a, 0x0d, 0x20, 0x2d, 0x7e, 0x5d, 0x2a] */
+      /*pattern "[\t\n\r -~]*" */
+      pattern "[	
+ -~]*";
+    }
+    description "String type compatible with YANG string and ASN.1.";
+  }
+}
